@@ -8,7 +8,8 @@ import '../models/log_entry.dart';
 import '../widgets/diagnostics_notice.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  final LogStorageService? logStorageService;
+  const DashboardScreen({super.key, this.logStorageService});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -17,7 +18,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final _diagnosticsService = DiagnosticsService();
   final _iosDiagnosticsService = IOSDiagnosticsService();
-  final _logStorageService = LogStorageService();
+  late final LogStorageService _logStorageService;
   DeviceStatus? _currentStatus;
   Map<String, dynamic>? _iosDiagnostics;
   bool _isLoading = false;
@@ -25,6 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
+    _logStorageService = widget.logStorageService ?? LogStorageService();
     _initializeServices();
   }
 

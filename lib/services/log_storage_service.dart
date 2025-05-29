@@ -12,8 +12,18 @@ class LogStorageService {
   }
 
   Future<void> saveLog(LogEntry log) async {
-    final logWithId = log.copyWith(id: _uuid.v4());
+    final logWithId = log.id.isNotEmpty ? log : log.copyWith(id: _uuid.v4());
     await _box.put(logWithId.id, logWithId.toJson());
+  }
+
+  // Helper to recursively cast map keys to String
+  Map<String, dynamic> _castMap(Map<dynamic, dynamic> map) {
+    return map.map((key, value) {
+      if (value is Map) {
+        return MapEntry(key.toString(), _castMap(value as Map));
+      }
+      return MapEntry(key.toString(), value);
+    });
   }
 
   Future<List<LogEntry>> getAllLogs() async {
@@ -21,7 +31,7 @@ class LogStorageService {
     for (var i = 0; i < _box.length; i++) {
       final logData = _box.getAt(i);
       if (logData != null) {
-        logs.add(LogEntry.fromJson(Map<String, dynamic>.from(logData)));
+        logs.add(LogEntry.fromJson(_castMap(logData as Map)));
       }
     }
     return logs;

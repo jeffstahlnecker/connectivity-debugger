@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'screens/dashboard_screen.dart';
+import 'services/log_storage_service.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final LogStorageService? logStorageService;
+
+  const MyApp({super.key, this.logStorageService});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const DashboardScreen(),
+      home: DashboardScreen(logStorageService: logStorageService),
     );
   }
 }

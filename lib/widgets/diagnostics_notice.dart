@@ -2,11 +2,13 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 
 class DiagnosticsNotice extends StatelessWidget {
-  const DiagnosticsNotice({super.key});
+  final bool? isIOSOverride;
+  const DiagnosticsNotice({super.key, this.isIOSOverride});
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
+    final isIOS = isIOSOverride ?? Platform.isIOS;
+    if (isIOS) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
