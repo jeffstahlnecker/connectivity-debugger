@@ -41,6 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       if (Platform.isIOS) {
         final iosDiagnostics = await _iosDiagnosticsService
             .collectDiagnostics();
+        if (!mounted) return;
         setState(() => _iosDiagnostics = iosDiagnostics);
       } else {
         final status = await _diagnosticsService.performDiagnostics();
@@ -60,14 +61,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
         );
 
         await _logStorageService.saveLog(logEntry);
+        if (!mounted) return;
         setState(() => _currentStatus = status);
       }
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Error running diagnostics: $e')));
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 

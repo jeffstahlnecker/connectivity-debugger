@@ -28,7 +28,6 @@ class DiagnosticsService {
 
   Future<DeviceStatus> performDiagnostics() async {
     final connectivityResult = await connectivity.checkConnectivity();
-    final deviceInfoData = await deviceInfo.deviceInfo;
     final simDataResult = await simDataProvider.getSimData();
 
     // Get the first SIM card data (if available)
@@ -85,9 +84,9 @@ class DiagnosticsService {
     return DeviceStatus(
       iccid: simCard?.serialNumber, // Use serialNumber as ICCID equivalent
       imsi: simCard?.subscriptionId
-          ?.toString(), // Use subscriptionId as IMSI equivalent
+          .toString(), // Use subscriptionId as IMSI equivalent
       signalStrength: null, // Not available
-      connectionType: connectivityResult.toString(),
+      connectionType: _getConnectionType(connectivityResult),
       carrierName: simCard?.carrierName,
       countryCode: simCard?.countryCode,
       isDataRoaming: simCard?.isDataRoaming ?? false,
@@ -132,5 +131,20 @@ class DiagnosticsService {
     }
 
     return 'Issues detected:\n${issues.join('\n')}';
+  }
+
+  String? _getConnectionType(ConnectivityResult? result) {
+    if (result == ConnectivityResult.mobile) {
+      return 'Mobile';
+    } else if (result == ConnectivityResult.wifi) {
+      return 'WiFi';
+    } else if (result == ConnectivityResult.ethernet) {
+      return 'Ethernet';
+    } else if (result == ConnectivityResult.bluetooth) {
+      return 'Bluetooth';
+    } else if (result == ConnectivityResult.none) {
+      return 'None';
+    }
+    return null;
   }
 }

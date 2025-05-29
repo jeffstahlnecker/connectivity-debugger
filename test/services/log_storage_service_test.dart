@@ -3,7 +3,6 @@ import 'package:connectivity_debugger/services/log_storage_service.dart';
 import 'package:connectivity_debugger/models/log_entry.dart';
 import 'package:connectivity_debugger/models/device_status.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
 import 'dart:io';
 
 void main() {

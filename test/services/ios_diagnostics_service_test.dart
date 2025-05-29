@@ -4,7 +4,6 @@ import 'package:connectivity_debugger/services/ios_diagnostics_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
 
 class MockConnectivity extends Mock implements Connectivity {}
 
@@ -15,13 +14,9 @@ void main() {
 
   group('IOSDiagnosticsService', () {
     late IOSDiagnosticsService service;
-    late MockConnectivity mockConnectivity;
-    late MockDeviceInfoPlugin mockDeviceInfo;
     const MethodChannel channel = MethodChannel('custom.carrier.info');
 
     setUp(() {
-      mockConnectivity = MockConnectivity();
-      mockDeviceInfo = MockDeviceInfoPlugin();
       service = IOSDiagnosticsService();
     });
 

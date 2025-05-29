@@ -14,7 +14,6 @@ class MockLogStorageService implements LogStorageService {
     _logs.add(log);
   }
 
-  @override
   Future<List<LogEntry>> getLogs() async {
     return _logs;
   }
@@ -24,7 +23,6 @@ class MockLogStorageService implements LogStorageService {
     return _logs;
   }
 
-  @override
   Future<void> clearLogs() async {
     _logs.clear();
   }
@@ -49,7 +47,6 @@ class MockLogStorageService implements LogStorageService {
     return ''; // Mock implementation
   }
 
-  @override
   Future<void> importLogsFromJson(String json) async {
     // Mock implementation
   }

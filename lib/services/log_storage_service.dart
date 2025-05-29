@@ -20,7 +20,7 @@ class LogStorageService {
   Map<String, dynamic> _castMap(Map<dynamic, dynamic> map) {
     return map.map((key, value) {
       if (value is Map) {
-        return MapEntry(key.toString(), _castMap(value as Map));
+        return MapEntry(key.toString(), _castMap(value));
       }
       return MapEntry(key.toString(), value);
     });
@@ -31,7 +31,7 @@ class LogStorageService {
     for (var i = 0; i < _box.length; i++) {
       final logData = _box.getAt(i);
       if (logData != null) {
-        logs.add(LogEntry.fromJson(_castMap(logData as Map)));
+        logs.add(LogEntry.fromJson(_castMap(logData)));
       }
     }
     return logs;
