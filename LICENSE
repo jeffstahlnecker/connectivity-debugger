@@ -1,0 +1,24 @@
+Business Source License 1.1
+
+Parameter Definitions
+"Licensor" means the copyright owner or entity authorized by the copyright owner that is granting the License.
+"Licensed Work" means the software and associated documentation files (the "Software") made available under this License.
+"Change Date" means the date three years from the date the Licensed Work is first publicly released.
+"Use Limitation" means the restriction set forth in this License that limits use of the Licensed Work to non-production purposes, research, or evaluation only, until the Change Date.
+
+1. License Grant
+Subject to the terms and conditions of this License, Licensor hereby grants you a non-exclusive, worldwide, non-transferable, royalty-free, limited license to use, copy, modify, create derivative works, and distribute the Licensed Work, solely for non-production use, research, or evaluation purposes, until the Change Date.
+
+2. Change Date
+On the Change Date, the Use Limitation expires and the Licensed Work will be made available under the GNU General Public License, version 2.0 or later, as published by the Free Software Foundation.
+
+3. Use Limitation
+You may not use the Licensed Work for production purposes until the Change Date. Production purposes include, without limitation, running the Licensed Work on a production system, offering the Licensed Work as a service, or using the Licensed Work to provide services to third parties.
+
+4. Notices
+You must retain all copyright and license notices in all copies or substantial portions of the Licensed Work.
+
+5. Disclaimer
+THE LICENSED WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE LICENSED WORK OR THE USE OR OTHER DEALINGS IN THE LICENSED WORK.
+
+For more information, see https://www.businesssourcelicense.org/1.1.txt 

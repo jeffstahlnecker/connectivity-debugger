@@ -46,3 +46,9 @@ A Flutter app for basic device and connectivity diagnostics.
 ## Contributing
 
 Pull requests are welcome! Please open an issue first to discuss major changes.
+
+## License
+
+This project is licensed under the Business Source License 1.1 (BSL-1.1).
+
+You may use, copy, modify, and distribute this software, but only for non-production use, research, or evaluation purposes. Production use is governed by the terms of the BSL-1.1. See the LICENSE file for details.
