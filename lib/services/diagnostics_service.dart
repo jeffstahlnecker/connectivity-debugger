@@ -1,39 +1,44 @@
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:sim_data/sim_data.dart';
 import '../models/device_status.dart';
-
-abstract class ISimDataProvider {
-  Future<SimData> getSimData();
-}
-
-class RealSimDataProvider implements ISimDataProvider {
-  @override
-  Future<SimData> getSimData() => SimDataPlugin.getSimData();
-}
+// Only import sim_data on Android
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
+import 'sim_info_service.dart';
 
 class DiagnosticsService {
   final Connectivity connectivity;
   final DeviceInfoPlugin deviceInfo;
-  final ISimDataProvider simDataProvider;
 
-  DiagnosticsService({
-    Connectivity? connectivity,
-    DeviceInfoPlugin? deviceInfo,
-    ISimDataProvider? simDataProvider,
-  }) : connectivity = connectivity ?? Connectivity(),
-       deviceInfo = deviceInfo ?? DeviceInfoPlugin(),
-       simDataProvider = simDataProvider ?? RealSimDataProvider();
+  DiagnosticsService({Connectivity? connectivity, DeviceInfoPlugin? deviceInfo})
+    : connectivity = connectivity ?? Connectivity(),
+      deviceInfo = deviceInfo ?? DeviceInfoPlugin();
 
   Future<DeviceStatus> performDiagnostics() async {
     final connectivityResult = await connectivity.checkConnectivity();
-    final simDataResult = await simDataProvider.getSimData();
 
-    // Get the first SIM card data (if available)
-    final simCard = simDataResult.cards.isNotEmpty
-        ? simDataResult.cards.first
-        : null;
+    String? carrierName;
+    String? countryCode;
+    String? iccid;
+    String? imsi;
+    int? signalStrength;
+    bool isDataRoaming = false;
+    bool isSimInserted = false;
+    String? simNumber;
+
+    if (Platform.isAndroid) {
+      final simInfo = await SimInfoService.getSimInfo();
+      if (simInfo != null && simInfo['error'] == null) {
+        carrierName = simInfo['carrierName'] as String?;
+        countryCode = simInfo['countryCode'] as String?;
+        iccid = simInfo['iccid'] as String?;
+        isDataRoaming = simInfo['isDataRoaming'] == true;
+        isSimInserted = simInfo['isSimInserted'] == true;
+        simNumber = simInfo['number'] as String?;
+        // imsi and signalStrength not available from this method
+      }
+    }
 
     // Check if mobile data is enabled
     final isMobileDataEnabled = connectivityResult == ConnectivityResult.mobile;
@@ -49,10 +54,13 @@ class DiagnosticsService {
         includeLinkLocal: false,
       );
       for (var interface in interfaces) {
-        if (interface.name.toLowerCase().contains('mobile')) {
-          ipAddress = interface.addresses.first.address;
-          break;
+        for (var addr in interface.addresses) {
+          if (!addr.isLoopback) {
+            ipAddress = addr.address;
+            break;
+          }
         }
+        if (ipAddress != null) break;
       }
     } catch (e) {
       ipAddress = null;
@@ -82,16 +90,15 @@ class DiagnosticsService {
     }
 
     return DeviceStatus(
-      iccid: simCard?.serialNumber, // Use serialNumber as ICCID equivalent
-      imsi: simCard?.subscriptionId
-          .toString(), // Use subscriptionId as IMSI equivalent
-      signalStrength: null, // Not available
+      iccid: iccid,
+      imsi: imsi,
+      signalStrength: signalStrength,
       connectionType: _getConnectionType(connectivityResult),
-      carrierName: simCard?.carrierName,
-      countryCode: simCard?.countryCode,
-      isDataRoaming: simCard?.isDataRoaming ?? false,
+      carrierName: carrierName,
+      countryCode: countryCode,
+      isDataRoaming: isDataRoaming,
       isAirplaneMode: isAirplaneMode,
-      isSimInserted: simCard != null,
+      isSimInserted: isSimInserted,
       isMobileDataEnabled: isMobileDataEnabled,
       ipAddress: ipAddress,
       canResolveDns: canResolveDns,

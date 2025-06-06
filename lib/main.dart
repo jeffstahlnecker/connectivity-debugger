@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'screens/dashboard_screen.dart';
+import 'screens/results_screen.dart';
 import 'services/log_storage_service.dart';
 
 class MyApp extends StatelessWidget {
